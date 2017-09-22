@@ -41,7 +41,7 @@ class PackageManager:
 
         args = args + packages
         pip.main(args)
-        self.set_config('packages', self.packages + packages)
+        self.set_config('packages', list(set(self.packages + packages)))
 
     @property
     def packages(self):
