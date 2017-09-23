@@ -4,6 +4,9 @@ Usage:
     boa update [--root=<path>]
     boa uninstall [--root=<path>] [--all] [PACKAGES ...]
     boa list [--root=<path>] [--versions]
+    boa sync [--root=<path>]
+    boa shell [--root=<path>]
+    boa version
 
 Options:
     --root=<path>          Boa root directory
@@ -15,6 +18,7 @@ import os
 import docopt
 
 from . import PackageManager
+from . import __version__
 
 class Boa(PackageManager):
     def __init__(self, opts):
@@ -34,11 +38,14 @@ class Boa(PackageManager):
             for k, v in self.package_versions.items():
                 print(k, v)
         else:
-            for pkg in self.packages:
+            for pkg in self._packages:
                 print(pkg)
 
     def cmd_update(self):
         self.update()
+
+    def cmd_sync(self):
+        self.sync()
 
     def run(self, opts):
         if opts['install']:
@@ -49,6 +56,12 @@ class Boa(PackageManager):
             self.cmd_uninstall(opts['PACKAGES'], opts['--all'])
         elif opts['update']:
             self.cmd_update()
+        elif opts['sync']:
+            self.cmd_sync()
+        elif opts['shell']:
+            self.shell()
+        elif opts['version']:
+            print(__version__)
 
 def main(args=None):
     boa = Boa(docopt.docopt(__doc__))
