@@ -91,7 +91,7 @@ class PackageManager:
 
         args = args + packages
         pip.main(args)
-        self.append_packages(packages)
+        self.append_packages(*packages)
 
     @property
     def package_versions(self):
@@ -117,7 +117,7 @@ class PackageManager:
     def sync(self, save=False):
         packages = [pkg.key for pkg in
                     pip.get_installed_distributions(user_only=True)]
-        self.append_packages(packages, save=save)
+        self.append_packages(*packages, save=save)
 
     def shell(self):
         import IPython
