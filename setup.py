@@ -7,4 +7,10 @@ setup(name='boa',
         'console_scripts': [
             'boa = boa.__main__:main'
         ]
-      })
+      },
+      install_requires=[
+        'pip',
+        'virtualenv',
+        'toml',
+        'docopt'
+      ])
