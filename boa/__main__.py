@@ -53,7 +53,7 @@ class Boa(PackageManager):
         self.update()
 
     def cmd_sync(self):
-        self.sync()
+        self.sync(save=True)
 
     def run(self, opts):
         if opts['install']:
