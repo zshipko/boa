@@ -98,7 +98,7 @@ class PackageManager:
         return {pkg.key: pkg.version for pkg in pip.get_installed_distributions() if pkg.key in self._packages}
 
     def update(self):
-        self.install(update=True, *self.packages)
+        self.install(update=True, *self._packages)
 
     def uninstall(self, *packages, all=False):
         if all:
