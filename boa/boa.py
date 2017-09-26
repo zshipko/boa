@@ -93,7 +93,7 @@ class PackageManager:
     def append_packages(self, *names, save=True):
         pkgs = [pkg.key for pkg in pip.get_installed_distributions()]
         for name in names:
-            self.append_package(name, check=check)
+            self.append_package(name, check=pkgs)
 
         if save:
             self.save_packages()

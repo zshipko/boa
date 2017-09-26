@@ -32,8 +32,8 @@ class Boa(PackageManager):
         self.load_config()
         self.run(opts)
 
-    def cmd_install(self, packages):
-        self.install(*packages)
+    def cmd_install(self, packages, editable):
+        self.install(*packages, editable=editable)
 
     def cmd_uninstall(self, packages, all):
         self.uninstall(*packages, all=all)
