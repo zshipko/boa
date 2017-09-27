@@ -154,7 +154,7 @@ class PackageManager:
         if fetch is not None:
             name, fetch = _split_name(fetch)
             os.makedirs(self.make_path('versions'), exist_ok=True)
-            #os.makedirs(self.make_path('env', name), exist_ok=True)
+            os.makedirs(self.make_path('env', name), exist_ok=True)
 
             # Download Python source
             if not os.path.exists(self.make_path('versions', fetch)):
@@ -165,9 +165,10 @@ class PackageManager:
 
             # Build Python source
             versions = self.make_path('versions', name)
-            binf = os.path.join(versions, 'python')
+            env = self.make_path('env', name)
+            binf = os.path.join(env, 'bin', 'python3')
             if not os.path.exists(binf):
-                os.system('cd {} && ./configure && {}'.format(versions, name, make))
+                os.system('cd {} && ./configure --prefix=$HOME/.boa/env/{} && {} &&  make install'.format(versions, name, make, make))
             kwargs['python'] = binf
             # kwargs['always-copy'] = True
 
