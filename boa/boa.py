@@ -72,11 +72,11 @@ class PackageManager:
             f.write('\n'.join(self._packages))
 
     def append_package(self, name, save=False):
-        if name not is self._packages:
+        if name not in self._packages:
             self._packages.append(name)
 
-        if save:
-            self.save_packages()
+            if save:
+                self.save_packages()
 
     def remove_packages(self, *packages, save=True, all=False):
         if all:
