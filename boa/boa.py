@@ -71,12 +71,9 @@ class PackageManager:
         with open(self.make_path(self.package_file), 'w') as f:
             f.write('\n'.join(self._packages))
 
-    def append_package(self, name, save=False, check=None):
-        check = check or [pkg.key for pkg in pip.get_installed_distributions()]
-        if name not in check:
-            return
-
-        self._packages.append(name)
+    def append_package(self, name, save=False):
+        if name not is self._packages:
+            self._packages.append(name)
 
         if save:
             self.save_packages()
@@ -91,9 +88,8 @@ class PackageManager:
             self.save_packages()
 
     def append_packages(self, *names, save=True):
-        pkgs = [pkg.key for pkg in pip.get_installed_distributions()]
         for name in names:
-            self.append_package(name, check=pkgs)
+            self.append_package(name)
 
         if save:
             self.save_packages()
@@ -113,8 +109,8 @@ class PackageManager:
             return
 
         args = args + packages
-        pip.main(args)
-        self.append_packages(*packages)
+        if pip.main(args) == 0:
+            self.append_packages(*packages)
 
     @property
     def package_versions(self):
@@ -133,8 +129,8 @@ class PackageManager:
             return
 
         args = ["uninstall"] + packages
-        pip.main(args)
-        self.remove_packages(*packages)
+        if pip.main(args) == 0:
+            self.remove_packages(*packages)
 
 
     def sync(self, save=False):
