@@ -1,4 +1,4 @@
-import pip
+from pip import _internal as pip
 import os
 import sys
 import toml
@@ -114,7 +114,7 @@ class PackageManager:
 
     @property
     def package_versions(self):
-        return {pkg.key: pkg.version for pkg in pip.get_installed_distributions() if pkg.key in self._packages}
+        return {pkg.key: pkg.version for pkg in pip.utils.misc.get_installed_distributions() if pkg.key in self._packages}
 
     def update(self):
         self.install(update=True, *self._packages)
@@ -135,7 +135,7 @@ class PackageManager:
 
     def sync(self, save=False):
         packages = [pkg.key for pkg in
-                    pip.get_installed_distributions(user_only=True)]
+                    pip.utils.misc.get_installed_distributions(user_only=True)]
         self.append_packages(*packages, save=save)
 
     def shell(self):
