@@ -1,6 +1,6 @@
 """
 Usage:
-    boa install [--root=<path>] [-e] [PACKAGES ...]
+    boa install [--root=<path>] [-e] [-r] [PACKAGES ...]
     boa update [--root=<path>]
     boa uninstall [--root=<path>] [--all] [PACKAGES ...]
     boa remove [--root=<path>] [--all] [PACKAGES ...]
@@ -17,6 +17,7 @@ Options:
     --versions             Print package versions
     --all                  Apply to all tracked packages
     -e                     Editable packages
+    -r                     Install packages from requirements.txt file
 """
 
 import os
@@ -32,8 +33,8 @@ class Boa(PackageManager):
         self.load_config()
         self.run(opts)
 
-    def cmd_install(self, packages, editable):
-        self.install(*packages, editable=editable)
+    def cmd_install(self, packages, editable, requirements):
+        self.install(*packages, editable=editable, requirements=requirements)
 
     def cmd_uninstall(self, packages, all):
         self.uninstall(*packages, all=all)
@@ -57,7 +58,7 @@ class Boa(PackageManager):
 
     def run(self, opts):
         if opts['install']:
-            self.cmd_install(opts['PACKAGES'], editable=opts['-e'])
+            self.cmd_install(opts['PACKAGES'], editable=opts['-e'], requirements=opts['-r'])
         elif opts['list']:
             self.cmd_list(opts['--versions'])
         elif opts['uninstall']:

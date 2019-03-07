@@ -94,7 +94,7 @@ class PackageManager:
         if save:
             self.save_packages()
 
-    def install(self, *packages, editable=False, update=True):
+    def install(self, *packages, editable=False, update=True, requirements=False):
         args = ["install", "--user"]
 
         if update:
@@ -103,14 +103,28 @@ class PackageManager:
         if editable:
             args.append('-e')
 
-        packages = list(packages)
-
         if len(packages) == 0:
             return
 
-        args = args + packages
-        if pip.main(args) == 0:
-            self.append_packages(*packages)
+        if requirements:
+            files = list(packages)
+
+            for f in files:
+                packages = []
+                args += ["-r", f]
+
+                with open(f) as file:
+                    packages += file.readlines()
+
+                if pip.main(args) == 0:
+                    self.append_packages(*packages)
+
+        else:
+            packages = list(packages)
+
+            args = args + packages
+            if pip.main(args) == 0:
+                self.append_packages(*packages)
 
     @property
     def package_versions(self):
